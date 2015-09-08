@@ -1,0 +1,15 @@
+<%= content_tag(:div,
+                class: [
+                  "outline_navigation_bar",
+                  entry.home_button.enabled? ? 'with_home_button' : nil
+                ].compact.join(' '),
+                data: {widget: 'outline_navigation_bar'}) do %>
+
+  <a class="toggle" tabindex="2" title="<%= t('.display_menu') %>" data-active-title="<%= t('.hide_menu') %>">
+    <span class="button"></span>
+    <span class="hint"><%= t('.toggle') %></span>
+  </a>
+
+  <%= render('pageflow/outline_navigation_bar/widget/buttons', entry: entry) %>
+  <%= render('pageflow/outline_navigation_bar/widget/scroller', entry: entry) %>
+<% end %>

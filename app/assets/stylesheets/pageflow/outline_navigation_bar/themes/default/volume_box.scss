@@ -1,0 +1,77 @@
+.navigation_volume_box {
+  height: 100%;
+
+  .volume-control {
+    height: 100%;
+
+    &:before,
+    &:after,
+    .volume-level:before {
+      background-image: image-url('pageflow/outline_navigation_bar/volume_control_sprite.png');
+      position: absolute;
+      width: 28px;
+      height: 19px;
+      content: " ";
+      background-repeat: no-repeat;
+      top: 8px;
+    }
+
+    &:before {
+      background-position: -34px top;
+      left: 32px;
+      bottom: 6%;
+      top: initial;
+    }
+
+    &:after {
+      background-position: -3px top;
+      left: 32px;
+      top: 6%;
+    }
+
+    &:after,
+    &:before {
+      @include small-height {
+        display: none;
+      }
+    }
+  }
+}
+
+.volume-control {
+  margin: 0px 20px;
+
+  .volume-slider {
+    width: 5px;
+    height: 60%;
+    background-color: gray;
+    top: 20%;
+    position: absolute;
+    left: 40px;
+
+    @include small-height {
+      top: 10%;
+      height: 80%;
+    }
+  }
+
+  .volume-level {
+    height: 100%;
+    bottom: 0;
+    position: absolute;
+
+    &:before {
+      display: block;
+      content: "";
+      background-position: -66px top;
+      top: -9px !important;
+      width: 18px !important;
+      height: 16px !important;
+      left: -6px !important;
+    }
+  }
+}
+
+.volume-level {
+  background-color: $main-color;
+}
