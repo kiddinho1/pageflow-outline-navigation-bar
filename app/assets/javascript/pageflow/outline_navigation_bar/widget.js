@@ -3,20 +3,11 @@
 (function($) {
   $.widget('pageflow.outlineNavigationBar', {
     _create: function() {
-      var overlays = this.element.find('.navigation_site_detail'),
-          overlaysByPermaId = {},
-          parentPage = this.element.find('.parent_page'),
+      var parentPage = this.element.find('.parent_page'),
           parentPageInfo = this.element.find('.parent_page .page_info'),
           that = this,
           hasHomeButton = !!this.element.find('.navigation_home').length;
 
-      overlays.each(function() {
-        var overlay = $(this);
-        var link = overlay.prev();
-        overlaysByPermaId[parseInt(link.attr('href').replace('#', ''), 10)] = overlay;
-      });
-
-      this.element.addClass('js').append(overlays);
       $('.navigation_bar_bottom', this.element)
         .append($('.navigation_bar_top > li', this.element).slice(hasHomeButton ? 4 : 3));
 
@@ -102,7 +93,6 @@
       }
 
       function hideOverlay() {
-        $(overlays).addClass('hidden').removeClass('visible');
       }
 
       function goToPage(e) {
@@ -118,10 +108,6 @@
 
       pageLinks.each(function(index) {
         var handlerIn = function() {
-          if (!('ontouchstart' in document.documentElement)) {
-            var calculatedOffset = $(this).offset().top + $(overlays[index]).outerHeight() > $('.outline_navigation_bar').height() ? $('.outline_navigation_bar').height() - $(overlays[index]).outerHeight() : $(this).offset().top;
-            $(overlays[index]).css("top", calculatedOffset).addClass('visible').removeClass('hidden');
-          }
         };
 
         $(this).on({
@@ -158,7 +144,6 @@
       resizeDots();
 
       $(window).on('resize', function () {
-        $(overlays).css("top","0");
         resizeDots();
       });
 
