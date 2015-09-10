@@ -8,7 +8,7 @@
 
   $outline-navigation-bar-menu-box-background-color: #fff !default;
 
-  $outline-navigation-bar-sprite: "pageflow/themes/mdr/menu_sprite.png";
+  $outline-navigation-bar-sprite: $navigation-bar-sprite !default;
 
   @mixin small-height {
     @media screen and (max-height: 870px) {
