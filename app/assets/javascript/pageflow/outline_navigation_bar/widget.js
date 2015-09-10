@@ -3,18 +3,28 @@
 (function($) {
   $.widget('pageflow.outlineNavigationBar', {
     _create: function() {
-      var parentPage = this.element.find('.parent_page'),
-          parentPageInfo = this.element.find('.parent_page .page_info'),
-          that = this,
-          hasHomeButton = !!this.element.find('.navigation_home').length;
+      var that = this;
 
-      $('.navigation_bar_bottom', this.element)
-        .append($('.navigation_bar_top > li', this.element).slice(hasHomeButton ? 4 : 3));
+      ///////// TERRIBLE HACK
+      // Ensure all storylines inherit the parent navigation bar for highlighting when this widget is enabled.
 
-      $('a.navigation_top', this.element).topButton();
+      pageflow.HighlightedPage.prototype.getNavigationBarMode = function(storylineId) {
+        if (!pageflow.entryData.getStorylineConfiguration(storylineId).main) {
+          return 'inherit_from_parent';
+        }
+      };
 
+      /////////
 
-      this.element.find('.toggle').on('click', function() {
+      $('.top a', this.element).topButton();
+
+      that.element.find('.navigation_volume_box').volumeSlider({
+        orientation: 'v'
+      });
+
+      /* toggle */
+
+      this.element.find('.toggle a').on('click', function() {
         $(this).toggleClass('active');
         $('.header').toggleClass('active');
         that.element.find('.scroller, .buttons').toggleClass('active');
@@ -30,121 +40,66 @@
         that.element.addClass('focus');
       });
 
-      /* Volume */
-      that.element.find('.navigation_volume_box').volumeSlider({
-        orientation: 'v'
-      });
-      that.element.find('.navigation_mute').muteButton();
-
-      /* hide buttons on mobile devices */
-      if (pageflow.features.has('mobile platform')) {
-        that.element.find('.navigation_butten_area').hide();
-
-      }
-
-      /* header button */
-      $('.navigation_main', this.element).click(function() {
-        $(this)
-          .toggleClass('active')
-          .updateTitle();
-        $('.header').toggleClass('active');
-        that.element.toggleClass('header_active');
-      });
-
       /* open header through skiplinks */
+
       $('a[href="#header"], a[href="#search"]', '#skipLinks').click(function() {
-        $('.navigation_main', that.element).addClass('active');
         $('.header').addClass('active');
         $(this.getAttribute('href')).select();
       });
 
       /* share-button */
-      $('.navigation_menu .navigation_menu_box a', this.element).focus(function() {
-        $(this).parent().parent().addClass('focused');
-      }).blur(function() {
-        $(this).parent().parent().removeClass('focused');
-      });
 
-      var shareBox = $('.navigation_share_box', this.element),
-          links = $('> a', shareBox);
-        shareBox.shareMenu({
+      $('.menu_box a', this.element)
+        .focus(function() {
+          $(this).parents('.menu_item').addClass('focused');
+        })
+        .blur(function() {
+          $(this).parents('.menu_item').removeClass('focused');
+        });
+
+      var shareBox = $('.share_box', this.element),
+          shareLinks = $('a', shareBox);
+
+      shareBox.shareMenu({
         subMenu: $('.sub_share', shareBox),
-        links: links,
-        insertAfter: links.last(),
+        links: shareLinks,
+        insertAfter: shareLinks.parent().last(),
         closeOnMouseLeaving: shareBox
       });
 
-      /* pages */
-      var pageLinks = $('.navigation_dots a', that.element),
-        target;
+      /* chapters */
+
+      var pageLinks = $('.scroller a', that.element),
+          target;
 
       function registerHandler() {
         target = $(this);
         target.one('mouseup touchend', goToPage);
       }
 
-      function removeHandler() {
-        pageLinks.off('mouseup touchend', goToPage);
-      }
-
       function closeOverview() {
         $('.overview').removeClass("active");
-        $('.navigation_index', that.element).removeClass("active");
-      }
-
-      function hideOverlay() {
+        $('.open_overview', that.element).removeClass("active");
+        $('.page .content').removeClass('hidden_by_overlay');
+        $('.scroll_indicator').removeClass('hidden');
       }
 
       function goToPage(e) {
         if (target && target[0] != e.currentTarget) {
           return;
         }
-        hideOverlay();
+
         closeOverview();
-        $('.page .content, .scroll_indicator').removeClass('hidden');
+
         pageflow.slides.goToById(this.getAttribute("data-link"));
         e.preventDefault();
       }
 
       pageLinks.each(function(index) {
-        var handlerIn = function() {
-        };
-
         $(this).on({
-          'mouseenter focus': handlerIn,
-          'mouseleave blur': hideOverlay,
           'mousedown touchstart': registerHandler,
           'click': goToPage
         });
-      });
-
-      var resizeDots = function() {
-        var pageDotsMaxHeight = 20;
-        var pageDotsMinHeight = 1;
-        var maxBarHeight = $('#outer_wrapper').height() ? $('#outer_wrapper').height() : $('main').height();
-
-        if (parentPage.hasClass('visible')) {
-          maxBarHeight -= parentPage.outerHeight();
-        }
-
-        var wantedHeight = maxBarHeight / pageLinks.length;
-        var appliedHeight = pageDotsMinHeight;
-
-
-        if(wantedHeight <= pageDotsMaxHeight && wantedHeight > pageDotsMinHeight) {
-          appliedHeight = wantedHeight;
-        }
-        else if(wantedHeight > pageDotsMinHeight) {
-          appliedHeight = pageDotsMaxHeight;
-        }
-
-        $('.navigation_dots > li:not(.parent_page)').css('height', appliedHeight + 'px');
-      };
-
-      resizeDots();
-
-      $(window).on('resize', function () {
-        resizeDots();
       });
 
       $('.scroller', this.element).each(function () {
@@ -165,11 +120,10 @@
 
         var scroller = new IScroll(this, scrollerOptions);
 
-        $('ul.navigation_dots', that.element).pageNavigationList({
+        $('.scroller ul', that.element).pageNavigationList({
           scroller: scroller,
           scrollToActive: true
         });
-
       });
 
       /* hide text button */
@@ -184,6 +138,7 @@
       });
 
       /* fullscreen button */
+
       if ($.support.fullscreen) {
         var fs = $('.fullscreen a', this.element),
             fullscreenCallback = function(isFullScreen) {
@@ -194,23 +149,23 @@
 
         fs.click(function() {
           fs.toggleClass('fs').updateTitle();
-          $('#outer_wrapper').fullScreen({'callback': fullscreenCallback});
+          $('#outer_wrapper').fullScreen({callback: fullscreenCallback});
         });
       }
       else {
-        $('.fullscreen', this.element).css('visibility', 'hidden');
+        $('.fullscreen', this.element).hide();
       }
 
-      $('.button, .navigation_mute, .scroll_indicator', this.element).on({
+      $('.menu_item > a', this.element).on({
         'touchstart mousedown': function() {
-          $(this).parent().addClass('pressed');
+          $(this).addClass('pressed');
         },
         'touchend mouseup': function() {
-          $(this).parent().removeClass('pressed');
+          $(this).removeClass('pressed');
         }
       });
 
-      $('.navigation_share, .navigation_credits', this.element).on({
+      $('.share > a, .credits > a', this.element).on({
         'touchstart': function() {
           var element = $(this).parent().parent();
           element.addClass('open');
@@ -221,17 +176,8 @@
               $('body').off('touchstart', close);
             }
           }
-          $('body').on('touchstart', close);
-        }
-      });
 
-      $('li', this.element).on('mouseleave', function() {
-        $(this).blur();
-      });
-
-      $('body').on({
-        'mouseup': function() {
-          handlingVolume = false;
+          $('body').one('touchstart', close);
         }
       });
     }

@@ -5,10 +5,12 @@
                 ].compact.join(' '),
                 data: {widget: 'outline_navigation_bar'}) do %>
 
-  <a class="toggle" tabindex="2" title="<%= t('.display_menu') %>" data-active-title="<%= t('.hide_menu') %>">
-    <span class="button"></span>
-    <span class="hint"><%= t('.toggle') %></span>
-  </a>
+  <div class="toggle menu_item">
+    <a tabindex="2" title="<%= t('.display_menu') %>" data-active-title="<%= t('.hide_menu') %>">
+      <span class="button"></span>
+      <span class="hint"><%= t('.toggle') %></span>
+    </a>
+  </div>
 
   <%= render('pageflow/outline_navigation_bar/widget/buttons', entry: entry) %>
   <%= render('pageflow/outline_navigation_bar/widget/scroller', entry: entry) %>

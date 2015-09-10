@@ -1,0 +1,12 @@
+.credits_box {
+  font-size: 1em;
+  min-width: 230px;
+  min-height: 4px;
+  bottom: 0;
+  padding: 15px;
+
+  a.legal,
+  a.copy {
+    float: left;
+  }
+}

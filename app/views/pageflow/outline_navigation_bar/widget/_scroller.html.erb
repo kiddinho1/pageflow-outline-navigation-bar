@@ -1,6 +1,6 @@
 <div class="scroller panel active">
   <ul>
     <%= render(partial: 'pageflow/outline_navigation_bar/widget/chapter',
-               collection: entry.chapters) %>
+               collection: (entry.storylines.detect { |s| s.configuration['main'] } || entry.storylines.first).chapters) %>
   </ul>
 </div>

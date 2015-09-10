@@ -1,5 +1,5 @@
 <%= content_tag(:li) do %>
-  <%= link_to("##{chapter.pages.first.try(&:perma_id)}") do %>
-    <%= chapter.title %>
+  <% if chapter.pages.first %>
+    <%= render 'pageflow/outline_navigation_bar/widget/link', chapter: chapter, page: chapter.pages.first %>
   <% end %>
 <% end %>

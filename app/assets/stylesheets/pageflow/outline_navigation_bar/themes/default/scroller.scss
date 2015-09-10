@@ -1,6 +1,8 @@
 .scroller {
+  overflow: hidden;
+
   ul {
-    padding: 0;
+    padding: 0 0 50px 0;
     list-style: none;
   }
 
@@ -20,11 +22,8 @@
     }
   }
 
-  li:last-child,
-  li.active {
-    a {
-      font-size: 30px;
-      color: $outline-navigation-bar-active-chapter-color;
-    }
+  a.in_active_chapter {
+    font-size: 30px;
+    color: $outline-navigation-bar-active-chapter-color;
   }
 }

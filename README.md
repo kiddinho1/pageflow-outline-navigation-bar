@@ -21,10 +21,6 @@ Include javascripts and stylesheets:
     # app/assets/javascripts/pageflow/application.js
     //= require pageflow/outline_navigation_bar
 
-    # app/assets/stylesheets/pageflow/application.css.scss
-    @import "pageflow/outline_navigation_bar";
-
-    # Adding basic style to your theme
     # app/assets/stylesheets/pageflow/themes/default.css.scss
     @import "pageflow/outline_navigation_bar/themes/default";
 

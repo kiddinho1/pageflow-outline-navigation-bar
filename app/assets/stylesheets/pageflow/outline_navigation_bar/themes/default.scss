@@ -6,41 +6,9 @@
   $outline-navigation-bar-basic-background-color: $basic-background-color-transparent !default;
   $outline-navigation-bar-active-chapter-color: $main-color !default;
 
+  $outline-navigation-bar-menu-box-background-color: #fff !default;
+
   $outline-navigation-bar-sprite: "pageflow/themes/mdr/menu_sprite.png";
-
-  $outline-navigation-bar-sprite-default-offset: -30px;
-  $outline-navigation-bar-sprite-hover-offset: -85px;
-  $outline-navigation-bar-sprite-pressed-offset: -140px;
-  $outline-navigation-bar-sprite-deactivated-offset: -140px;
-
-  @mixin button-sprite($offset, $active-offset: null) {
-    .button {
-      display: block;
-      width: 40px;
-      height: 40px;
-
-      background-image: image-url($outline-navigation-bar-sprite);
-      background-position-x: $offset;
-      background-position-y: $outline-navigation-bar-sprite-default-offset;
-
-      @include hover {
-        background-position-y: $outline-navigation-bar-sprite-hover-offset;
-      }
-
-      @include pressed {
-        background-position-y: $outline-navigation-bar-sprite-pressed-offset;
-      }
-    }
-
-    .active .button {
-      @if ($active-offset) {
-        background-position-x: $active-offset;
-      }
-      @else {
-        background-position-y: $outline-navigation-bar-sprite-hover-offset;
-      }
-    }
-  }
 
   @mixin small-height {
     @media screen and (max-height: 870px) {
@@ -58,20 +26,16 @@
   font-family: $standard-font;
   background-color: $outline-navigation-bar-basic-background-color;
 
-  @import "./default/buttons";
+  @import "./default/menu_item";
+  @import "./default/menu_items";
   @import "./default/volume_box";
+  @import "./default/share_box";
+  @import "./default/credits_box";
   @import "./default/scroller";
 
   .toggle {
-    display: block;
-    height: 50px;
-    margin: 4px;
-
-    .button {
-      margin: 10px auto;
-    }
-
-    @include button-sprite(-22px, -89px);
+    height: 45px;
+    @include menu-item-sprite(-22px, -89px);
   }
 
   .panel {
