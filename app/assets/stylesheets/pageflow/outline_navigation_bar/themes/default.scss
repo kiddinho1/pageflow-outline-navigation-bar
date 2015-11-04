@@ -20,11 +20,12 @@
   right: 0;
   top: 0;
   z-index: 3;
-  width: 85px;
   height: 100%;
+  width: 18px;
 
   font-family: $standard-font;
   background-color: $outline-navigation-bar-basic-background-color;
+  @include transition(width 0.2s ease);
 
   @import "./default/menu_item";
   @import "./default/menu_items";
@@ -35,18 +36,18 @@
 
   .toggle {
     height: 45px;
+    left: -60px;
     @include menu-item-sprite(-22px, -89px);
   }
 
   .panel {
+    opacity: 0;
+    visibility: hidden;
     position: absolute;
     top: 60px;
     right: 0;
     width: 100%;
     bottom: 0;
-
-    opacity: 0;
-    visibility: hidden;
     @include transition(opacity 0.2s ease, visibility 0.2s ease);
 
     &.active {

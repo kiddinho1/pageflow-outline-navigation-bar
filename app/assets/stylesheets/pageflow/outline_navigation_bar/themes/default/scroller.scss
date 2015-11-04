@@ -3,27 +3,49 @@
 
   ul {
     padding: 0 0 50px 0;
+    margin: 0;
     list-style: none;
+
+    position: absolute;
+  }
+
+  li {
+    margin-left: 6px;
+    padding-bottom: 2px;
   }
 
   a {
     display: block;
-    padding: 10px 0;
+    padding: 10px 12px;
 
-    text-align: center;
     text-decoration: none;
     color: #fff;
     font-weight: bold;
     font-size: 17px;
     line-height: 20px;
+    border-left: solid 6px rgba(255, 255, 255, 0.3);
+    white-space: nowrap;
 
-    &:hover {
-      font-size: 18px;
-    }
+    height: 10px;
+    @include transition(height 0.5s ease);
+  }
+
+  span {
+    opacity: 0;
   }
 
   a.in_active_chapter {
-    font-size: 30px;
     color: $outline-navigation-bar-active-chapter-color;
+    border-left: solid 6px $outline-navigation-bar-active-chapter-color;
   }
+}
+
+&.expanded .scroller a {
+  height: 20px !important;
+}
+
+&.expanded .scroller span {
+  opacity: 1;
+  @include transition(opacity 0.5s ease);
+  @include transition-delay(0.4s);
 }

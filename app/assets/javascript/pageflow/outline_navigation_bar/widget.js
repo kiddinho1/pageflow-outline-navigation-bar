@@ -122,7 +122,46 @@
 
         $('.scroller ul', that.element).pageNavigationList({
           scroller: scroller,
-          scrollToActive: true
+          scrollToActive: false
+        });
+
+        var scrollerPanel = that.element.find('.scroller.panel');
+        var expandedWidth = scrollerPanel.find('ul').width() + 'px';
+        var scrollTimeout;
+
+        that.element.on({
+          mouseenter: function() {
+            that.element.addClass('expanded');
+            that.element.css('width', expandedWidth);
+
+            scrollTimeout = setTimeout(function() {
+              scroller.refresh();
+              scroller.scrollToElement(that.element.find('.scroller .active')[0], 500);
+            }, 500);
+          },
+
+          mouseleave: function() {
+            that.element.removeClass('expanded');
+            that.element.css('width', '');
+
+            clearTimeout(scrollTimeout);
+            scroller.scrollTo(0, 0);
+          }
+        });
+
+
+        function resizeDots() {
+          var maxDotHeight = 20;
+          var minDotHeight = 0;
+          var barHeight = scrollerPanel.height() - 5;
+          var dotHeight = barHeight / pageLinks.length - 22;
+
+          dotHeight = Math.min(Math.max(dotHeight, minDotHeight), maxDotHeight);
+          scrollerPanel.find('a').css('height', dotHeight + 'px');
+        }
+
+        $(window).on('resize', function() {
+          setTimeout(resizeDots, 200);
         });
       });
 
