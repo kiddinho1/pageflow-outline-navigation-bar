@@ -32,16 +32,6 @@
         that.element.toggleClass('buttons_active');
       });
 
-      /* keyboard / skiplinks */
-
-      that.element.find('a, *[tabindex]').on('blur', function() {
-        that.element.removeClass('focus');
-      });
-
-      that.element.find('a, *[tabindex]').on('focus', function() {
-        that.element.addClass('focus');
-      });
-
       /* open header through skiplinks */
 
       $('a[href="#header"], a[href="#search"]', '#skipLinks').click(function() {
@@ -49,7 +39,7 @@
         $(this.getAttribute('href')).select();
       });
 
-      /* share-button */
+      /* menu boxes */
 
       $('.menu_box a', this.element)
         .focus(function() {
@@ -120,6 +110,18 @@
         collapsed: function() {
           scroller.collapse();
         }
+      });
+
+      /* keyboard / skiplinks */
+
+      that.element.find('a, *[tabindex]').on('focus', function() {
+        that.element.addClass('focus');
+        that.element.outlineNavigationBarExpandable('expand');
+      });
+
+      that.element.find('a, *[tabindex]').on('blur', function() {
+        that.element.removeClass('focus');
+        that.element.outlineNavigationBarExpandable('collapse');
       });
 
       /* hide text button */

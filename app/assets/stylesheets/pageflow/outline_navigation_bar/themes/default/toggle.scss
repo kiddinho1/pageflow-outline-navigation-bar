@@ -1,0 +1,11 @@
+.toggle {
+  height: 45px;
+  right: 15px;
+  position: absolute;
+  @include menu-item-sprite(-22px, -89px);
+}
+
+&.fixed .toggle,
+&.buttons_active .toggle {
+  right: 10px;
+}
