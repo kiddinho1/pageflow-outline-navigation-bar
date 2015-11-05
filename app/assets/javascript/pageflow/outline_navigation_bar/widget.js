@@ -120,8 +120,10 @@
       });
 
       that.element.find('a, *[tabindex]').on('blur', function() {
-        that.element.removeClass('focus');
-        that.element.outlineNavigationBarExpandable('collapse');
+        if (that.element.hasClass('focus')) {
+          that.element.outlineNavigationBarExpandable('collapse');
+          that.element.removeClass('focus');
+        }
       });
 
       /* hide text button */

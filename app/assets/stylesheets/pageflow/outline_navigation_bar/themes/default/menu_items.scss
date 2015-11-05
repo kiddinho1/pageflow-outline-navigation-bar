@@ -1,9 +1,15 @@
 .menu_items {
-  margin-top: 20px;
+  margin: 0;
   padding: 0;
+  position: absolute;
+  top: 20px;
+  bottom: 0;
+  width: 100%;
 
   .volume {
-    height: 200px;
+    height: 25%%;
+    min-height: 100px;
+    max-height: 200px;
   }
 
   .home {
