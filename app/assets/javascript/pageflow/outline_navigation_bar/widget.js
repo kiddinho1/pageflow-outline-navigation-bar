@@ -1,4 +1,5 @@
-/*global IScroll*/
+//= require ./expandable
+//= require ./scroller
 
 (function($) {
   $.widget('pageflow.outlineNavigationBar', {
@@ -27,7 +28,8 @@
       this.element.find('.toggle a').on('click', function() {
         $(this).toggleClass('active');
         $('.header').toggleClass('active');
-        that.element.find('.scroller, .buttons').toggleClass('active');
+        that.element.find('.panel').toggleClass('active');
+        that.element.toggleClass('buttons_active');
       });
 
       /* keyboard / skiplinks */
@@ -95,35 +97,29 @@
         e.preventDefault();
       }
 
-      pageLinks.each(function(index) {
+      pageLinks.each(function() {
         $(this).on({
           'mousedown touchstart': registerHandler,
           'click': goToPage
         });
       });
 
-      $('.scroller', this.element).each(function () {
-        var scrollerOptions = {
-          mouseWheel: true,
-          bounce    : false,
-          probeType : 2
-        };
+      /* scroller */
+      var isFixed = !this.element.hasClass('expandable');
+      var scroller = this.element.find('.scroller')
+                         .outlineNavigationBarScroller({isFixed: isFixed})
+                         .outlineNavigationBarScroller('instance');
 
-        /*
-          This is just a quick fix to detect IE10. We should
-          refactor this condition if we decide to use Modernizr
-          or another more global detection.
-         */
-        if (window.navigator.msPointerEnabled) {
-          scrollerOptions.preventDefault = false;
+      this.element.outlineNavigationBarExpandable({
+        isFixed: isFixed,
+
+        expanded: function() {
+          scroller.expand();
+        },
+
+        collapsed: function() {
+          scroller.collapse();
         }
-
-        var scroller = new IScroll(this, scrollerOptions);
-
-        $('.scroller ul', that.element).pageNavigationList({
-          scroller: scroller,
-          scrollToActive: true
-        });
       });
 
       /* hide text button */

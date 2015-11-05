@@ -6,8 +6,12 @@ module Pageflow
       OutlineNavigationBar::Plugin.new
     end
 
-    def self.widget_type
-      OutlineNavigationBar::WidgetType.new
+    def self.fixed_widget_type
+      OutlineNavigationBar::FixedWidgetType.new
+    end
+
+    def self.expandable_widget_type
+      OutlineNavigationBar::ExpandableWidgetType.new
     end
   end
 end

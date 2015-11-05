@@ -1,3 +1,4 @@
-body .widget_outline_navigation_bar_present .navigation_mobile {
+body .widget_outline_navigation_bar_fixed_present .navigation_mobile,
+body .widget_outline_navigation_bar_expandable_present .navigation_mobile {
   display: none;
 }

@@ -27,4 +27,7 @@ de:
           home: Startseite
           home_title: Zur Homepage
       feature_name: Navigationsleiste mit Kapiteltiteln
-      widget_type_name: Navigationsleiste mit Kapiteltiteln
+      fixed:
+        widget_type_name: Navigationsleiste mit Kapiteltiteln (fixiert)
+      expandable:
+        widget_type_name: Navigationsleiste mit Kapiteltiteln (aufklappbar)

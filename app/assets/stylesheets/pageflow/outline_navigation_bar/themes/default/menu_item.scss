@@ -45,13 +45,13 @@
     color: $basic-text-color;
     font-size: 11px;
     display: block;
-    padding: 0 5px;
+    padding: 0;
   }
 
   .menu_box {
     position: absolute;
     top: 0;
-    right: 90px;
+    right: 70px;
     z-index: 4;
     visibility: hidden;
     background-color: $outline-navigation-bar-menu-box-background-color;
@@ -90,36 +90,35 @@
 
   .button {
     background-image: image-url($outline-navigation-bar-sprite);
-    background-position-x: $offset;
-    background-position-y: $outline-navigation-bar-sprite-default-offset;
+    background-position: $offset $outline-navigation-bar-sprite-default-offset;
   }
 
   > a {
     @include hover {
       .button {
-        background-position-y: $outline-navigation-bar-sprite-hover-offset;
+        background-position: $offset $outline-navigation-bar-sprite-hover-offset;
       }
     }
 
     @include pressed {
       .button {
-        background-position-y: $outline-navigation-bar-sprite-pressed-offset + $pressed-delta;
+        background-position: $offset $outline-navigation-bar-sprite-pressed-offset + $pressed-delta;
       }
     }
 
     &.deactivated {
       .button {
-        background-position-y: $outline-navigation-bar-sprite-default-offset !important;
+        background-position: $offset $outline-navigation-bar-sprite-default-offset !important;
       }
     }
 
     &.active {
       .button {
         @if ($active-offset) {
-          background-position-x: $active-offset;
+          background-position: $active-offset $outline-navigation-bar-sprite-default-offset;
         }
         @else {
-          background-position-y: $outline-navigation-bar-sprite-hover-offset;
+          background-position: $offset $outline-navigation-bar-sprite-hover-offset;
         }
       }
     }

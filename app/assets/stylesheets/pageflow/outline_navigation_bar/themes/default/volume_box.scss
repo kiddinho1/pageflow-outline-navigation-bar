@@ -18,14 +18,14 @@
 
     &:before {
       background-position: -34px top;
-      left: 32px;
+      left: 25px;
       bottom: 6%;
       top: initial;
     }
 
     &:after {
       background-position: -3px top;
-      left: 32px;
+      left: 25px;
       top: 6%;
     }
 
@@ -47,7 +47,7 @@
     background-color: gray;
     top: 20%;
     position: absolute;
-    left: 40px;
+    left: 30px;
 
     @include small-height {
       top: 10%;
