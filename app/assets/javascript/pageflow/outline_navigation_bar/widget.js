@@ -116,14 +116,10 @@
 
       that.element.find('a, *[tabindex]').on('focus', function() {
         that.element.addClass('focus');
-        that.element.outlineNavigationBarExpandable('expand');
       });
 
       that.element.find('a, *[tabindex]').on('blur', function() {
-        if (that.element.hasClass('focus')) {
-          that.element.outlineNavigationBarExpandable('collapse');
-          that.element.removeClass('focus');
-        }
+        that.element.removeClass('focus');
       });
 
       /* hide text button */
