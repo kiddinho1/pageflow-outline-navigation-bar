@@ -25,6 +25,7 @@
   font-family: $standard-font;
   background-color: $outline-navigation-bar-basic-background-color;
   @include transition(width 0.2s ease);
+  @include user-select(none);
 
   &.fixed {
     min-width: 65px;
