@@ -121,11 +121,25 @@
     }
 
     &.active {
-      .button {
-        @if ($active-offset) {
+      @if ($active-offset) {
+        .button {
           background-position: $active-offset $outline-navigation-bar-sprite-default-offset;
         }
-        @else {
+
+        @include hover {
+          .button {
+            background-position: $active-offset $outline-navigation-bar-sprite-hover-offset;
+          }
+        }
+
+        @include pressed {
+          .button {
+            background-position: $active-offset $outline-navigation-bar-sprite-pressed-offset + $pressed-delta;
+          }
+        }
+      }
+      @else {
+        .button {
           background-position: $offset $outline-navigation-bar-sprite-hover-offset;
         }
       }
