@@ -3,9 +3,31 @@
   right: 15px;
   position: absolute;
   @include menu-item-sprite(-22px, -89px);
+
+  .button {
+    position: relative;
+  }
 }
 
 &.fixed .toggle,
 &.buttons_active .toggle {
   right: 10px;
+}
+
+&.expandable {
+  .toggle .button:before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0px;
+    height: 0px;
+    box-shadow: 0 0px 20px 12px rgba(0,0,0,0.4);
+    z-index: -1
+  }
+
+  &.expanded .toggle .button:before {
+    display: none;
+  }
 }
