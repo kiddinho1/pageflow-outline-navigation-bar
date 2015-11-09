@@ -1,0 +1,24 @@
+.mobile_panel {
+  position: absolute;
+
+  .credits {
+    font-family: "sourcesanspro";
+
+    a {
+      margin-top: 1em;
+      color: #b4c552;
+
+      &:hover {
+        color: white;
+      }
+    }
+  }
+
+  .heading-1 {
+    height: 40px;
+    margin: 10px;
+    font-size: 2em;
+    font-weight: bold;
+    display: none;
+  }
+}

@@ -5,33 +5,14 @@
     _create: function() {
       this.list = this.element.find('.chapters_panel ul');
 
-      this.setupWidth();
-      this.setupEventHandler();
+      this._setupWidth();
     },
 
-    setupWidth: function() {
+    _setupWidth: function() {
       this.expandedWidth = Math.max(BAR_MIN_WIDTH, this.list.width()) + 'px';
 
       if (this.options.isFixed) {
         this.element.css('width', this.expandedWidth);
-      }
-    },
-
-    setupEventHandler: function() {
-      var that = this;
-
-      if (!this.options.isFixed) {
-        this.element.on({
-          mouseenter: function() {
-            that.expand();
-            that.options.expanded && that.options.expanded();
-          },
-
-          mouseleave: function() {
-            that.collapse();
-            that.options.collapsed && that.options.collapsed();
-          }
-        });
       }
     },
 
@@ -43,6 +24,6 @@
     collapse: function() {
       this.element.removeClass('expanded');
       this.element.css('width', '');
-    }
+    },
   });
 }(jQuery));

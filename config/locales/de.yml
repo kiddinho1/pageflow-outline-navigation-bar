@@ -3,8 +3,10 @@ de:
     outline_navigation_bar:
       chapter: Kapitel
       widget:
-        display_menu: Menu anzeigen
-        hide_menu: Menü ausblenen
+        toggles:
+          display_menu: Menu anzeigen
+          hide_menu: Menü ausblenen
+          toggle: Umschalten
 
         buttons:
           display_header: Dachnavigation anzeigen

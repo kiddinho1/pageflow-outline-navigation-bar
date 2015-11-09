@@ -1,0 +1,45 @@
+.mobile_sharing {
+  .wrapper {
+    top: 0;
+  }
+
+  li {
+    width: 200px;
+    border-bottom: 1px solid #465b73;
+
+    > a {
+      margin-left: 78px;
+      color: white;
+      text-decoration: none;
+      font-size: 24px;
+      padding-top: 12px;
+      border: 0;
+      height: 80px;
+
+      &:before {
+        content: "";
+        position: absolute;
+        width: 42px;
+        height: 37px;
+        background-image: image-url('pageflow/mobile_sharing.png');
+        background-size: 100% auto;
+        left: 30px;
+        top: 30px;
+      }
+
+      &.facebook:before {
+        background-position: center top;
+      }
+      &.twitter:before {
+        background-position: center 122px;
+      }
+      &.google:before {
+        background-position: center bottom;
+      }
+    }
+  }
+}
+
+.sub_share {
+  display: none;
+}

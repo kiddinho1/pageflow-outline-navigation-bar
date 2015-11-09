@@ -1,8 +1,57 @@
 .toggle {
   height: 45px;
-  right: 15px;
   position: absolute;
-  @include menu-item-sprite(-22px, -89px);
+
+  &.buttons {
+    @include menu-item-sprite(-22px, -89px);
+  }
+
+  &.chapters {
+    @include menu-item-sprite(-22px);
+  }
+
+  &.share,
+  &.credits {
+    opacity: 0;
+    visibility: hidden;
+    @include transition(opacity 0.5s ease, visibility 0.5s ease);
+  }
+
+  &.share {
+    @include menu-item-sprite(-555px);
+    top: 80px;
+  }
+
+  &.credits {
+    @include menu-item-sprite(-622px);
+    bottom: 10px;
+  }
+
+  &.mobile_only {
+    display: none;
+    left: -55px;
+    @include menu-item-shadow;
+
+    .has_mobile_platform & {
+      display: block;
+    }
+
+    @include mobile {
+      display: block;
+    }
+  }
+
+  &.desktop_only {
+    right: 15px;
+
+    .has_mobile_platform & {
+      display: none;
+    }
+
+    @include mobile {
+      display: none;
+    }
+  }
 
   .button {
     position: relative;
@@ -11,23 +60,25 @@
 
 &.fixed .toggle,
 &.buttons_active .toggle {
-  right: 10px;
+  &.buttons {
+    right: 10px;
+  }
+}
+
+&.expanded .toggle {
+  &.share,
+  &.credits {
+    opacity: 1;
+    visibility: visible;
+  }
 }
 
 &.expandable {
-  .toggle .button:before {
-    content: '';
-    display: block;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0px;
-    height: 0px;
-    box-shadow: 0 0px 20px 12px rgba(0,0,0,0.4);
-    z-index: -1
+  .toggle {
+    @include menu-item-shadow;
   }
 
-  &.expanded .toggle .button:before {
-    display: none;
+  &.expanded .toggle.desktop_only {
+    @include menu-item-shadow-off;
   }
 }

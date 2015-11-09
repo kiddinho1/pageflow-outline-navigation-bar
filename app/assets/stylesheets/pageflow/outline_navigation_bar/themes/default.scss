@@ -24,7 +24,7 @@
 
   font-family: $standard-font;
   background-color: $outline-navigation-bar-basic-background-color;
-  @include transition(width 0.2s ease);
+  @include transition(min-width 0.2s ease, width 0.2s ease);
   @include user-select(none);
 
   &.fixed {
@@ -39,16 +39,26 @@
     width: 65px !important;
   }
 
-  a:active {
-    outline: none;
+  @include mobile {
+    &.expanded {
+      width: 200px !important;
+    }
   }
 
+  .has_mobile_platform &.expanded {
+    width: 200px !important;
+  }
+
+  @import "./default/prevent_focus_rect_on_pointer_down";
+
   @import "./default/panel";
+  @import "./default/mobile_panel";
   @import "./default/menu_item";
   @import "./default/menu_items";
   @import "./default/toggle";
   @import "./default/volume_box";
   @import "./default/share_box";
   @import "./default/credits_box";
+  @import "./default/mobile_sharing";
   @import "./default/scroller";
 }

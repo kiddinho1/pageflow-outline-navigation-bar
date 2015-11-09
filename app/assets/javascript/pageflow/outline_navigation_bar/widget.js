@@ -1,10 +1,7 @@
-//= require ./expandable
-//= require ./scroller
-
 (function($) {
   $.widget('pageflow.outlineNavigationBar', {
     _create: function() {
-      var that = this;
+      this.expandedBy = {};
 
       ///////// TERRIBLE HACK
       // Ensure all storylines inherit the parent navigation bar for highlighting when this widget is enabled.
@@ -17,165 +14,155 @@
 
       /////////
 
-      $('.top a', this.element).topButton();
+      this.element.toggleClass('expandable', !this._isFixed());
 
-      that.element.find('.navigation_volume_box').volumeSlider({
+      this.scroller = this._setupChaptersPanel();
+      this.expandable = this._setupExpandable();
+
+      this._setupMouseExpanding();
+      this._setupFocusExpanding();
+      this._setupGlobalSkipLinks();
+      this._setupButtonsPanel();
+    },
+
+    expand: function(options) {
+      this.expandedBy[(options && options.by) || 'button'] = true;
+
+      if (!this.expanded && !this._isFixed()) {
+        this.expanded = true;
+
+        this.expandable.expand();
+        this.scroller.expand();
+
+        if (mobileLayout()) {
+          hidePageContent();
+        }
+      }
+    },
+
+    collapse: function(options) {
+      delete this.expandedBy[(options && options.by) || 'button'];
+
+      if (this.expanded && _.keys(this.expandedBy).length === 0) {
+        this.expanded = false;
+
+        this.expandable.collapse();
+        this.scroller.collapse();
+
+        showPageContent();
+      }
+    },
+
+    _setupExpandable: function() {
+      var element = this.element;
+
+      element.outlineNavigationBarExpandable({
+        isFixed: this._isFixed()
+      });
+
+      element.outlineNavigationBarPanels({
+        expandable: this,
+        panels: element.find('.panel'),
+        toggles: element.find('.toggle'),
+      });
+
+      return this.element.outlineNavigationBarExpandable('instance');
+    },
+
+    _setupMouseExpanding: function() {
+      var widget = this;
+
+      if (!pageflow.browser.has('mobile platform')) {
+        this.element.on({
+          mouseenter: function() {
+            if (!mobileLayout()) {
+              widget.expand({by: 'mouse'});
+            }
+          },
+
+          mouseleave: function() {
+            if (!mobileLayout()) {
+              widget.collapse({by: 'mouse'});
+            }
+          }
+        });
+      }
+    },
+
+    _setupFocusExpanding: function() {
+      var widget = this;
+
+      this.element.find('a, *[tabindex]').on({
+        focus: function() {
+          widget.expand({by: 'focus'});
+        },
+
+        blur: function() {
+          widget.collapse({by: 'focus'});
+        }
+      });
+    },
+
+    _setupButtonsPanel: function() {
+      var element = this.element;
+
+      element.find('.toggle.buttons a').on('click', function() {
+        $('.header').toggleClass('active');
+        element.toggleClass('buttons_active');
+      });
+
+      element.find('.menu_item').outlineNavigationBarMenuItem();
+      element.find('.top a').topButton();
+      element.find('.fullscreen a').fullscreenButton();
+      element.find('.hide_text a').outlineNavigationBarHideTextButton();
+      element.find('.navigation_volume_box').volumeSlider({
         orientation: 'v'
       });
-
-      /* toggle */
-
-      this.element.find('.toggle a').on('click', function() {
-        $(this).toggleClass('active');
-        $('.header').toggleClass('active');
-        that.element.find('.panel').toggleClass('active');
-        that.element.toggleClass('buttons_active');
-      });
-
-      /* open header through skiplinks */
-
-      $('a[href="#header"], a[href="#search"]', '#skipLinks').click(function() {
-        $('.header').addClass('active');
-        $(this.getAttribute('href')).select();
-      });
-
-      /* menu boxes */
-
-      $('.menu_box a', this.element)
-        .focus(function() {
-          $(this).parents('.menu_item').addClass('focused');
-        })
-        .blur(function() {
-          $(this).parents('.menu_item').removeClass('focused');
-        });
 
       var shareBox = $('.share_box', this.element),
           shareLinks = $('a', shareBox);
 
       shareBox.shareMenu({
-        subMenu: $('.sub_share', shareBox),
-        links: shareLinks,
         insertAfter: shareLinks.parent().last(),
         closeOnMouseLeaving: shareBox
       });
+    },
 
-      /* chapters */
+    _setupChaptersPanel: function() {
+      var element = this.element;
+      var scroller = element.find('.scroller')
+        .outlineNavigationBarScroller({isFixed: this._isFixed()})
+        .outlineNavigationBarScroller('instance');
 
-      var pageLinks = $('.scroller a', that.element),
-          target;
-
-      function registerHandler() {
-        target = $(this);
-        target.one('mouseup touchend', goToPage);
-      }
-
-      function closeOverview() {
-        $('.overview').removeClass("active");
-        $('.open_overview', that.element).removeClass("active");
-        $('.page .content').removeClass('hidden_by_overlay');
-        $('.scroll_indicator').removeClass('hidden');
-      }
-
-      function goToPage(e) {
-        if (target && target[0] != e.currentTarget) {
-          return;
-        }
-
-        closeOverview();
-
-        pageflow.slides.goToById(this.getAttribute("data-link"));
-        e.preventDefault();
-      }
-
-      pageLinks.each(function() {
-        $(this).on({
-          'mousedown touchstart': registerHandler,
-          'click': goToPage
-        });
+      element.find('.scroller').outlineNavigationBarNavigator({
+        scroller: scroller
       });
 
-      /* scroller */
-      var isFixed = !this.element.hasClass('expandable');
-      var scroller = this.element.find('.scroller')
-                         .outlineNavigationBarScroller({isFixed: isFixed})
-                         .outlineNavigationBarScroller('instance');
+      return scroller;
+    },
 
-      this.element.outlineNavigationBarExpandable({
-        isFixed: isFixed,
-
-        expanded: function() {
-          scroller.expand();
-        },
-
-        collapsed: function() {
-          scroller.collapse();
-        }
+    _setupGlobalSkipLinks: function() {
+      $('a[href="#header"], a[href="#search"]', '#skipLinks').click(function() {
+        $('.header').addClass('active');
+        $(this.getAttribute('href')).select();
       });
+    },
 
-      /* keyboard / skiplinks */
-
-      that.element.find('a, *[tabindex]').on('focus', function() {
-        that.element.addClass('focus');
-      });
-
-      that.element.find('a, *[tabindex]').on('blur', function() {
-        that.element.removeClass('focus');
-      });
-
-      /* hide text button */
-      var hideText = $('.hide_text a', this.element);
-
-      hideText.click(function() {
-        pageflow.hideText.toggle();
-      });
-
-      pageflow.hideText.on('activate deactivate', function() {
-        hideText.toggleClass('active', pageflow.hideText.isActive()).updateTitle();
-      });
-
-      /* fullscreen button */
-
-      if ($.support.fullscreen) {
-        var fs = $('.fullscreen a', this.element),
-            fullscreenCallback = function(isFullScreen) {
-              fs
-                .toggleClass('active', !!isFullScreen)
-                .updateTitle();
-            };
-
-        fs.click(function() {
-          fs.toggleClass('fs').updateTitle();
-          $('#outer_wrapper').fullScreen({callback: fullscreenCallback});
-        });
-      }
-      else {
-        $('.fullscreen', this.element).hide();
-      }
-
-      $('.menu_item > a', this.element).on({
-        'touchstart mousedown': function() {
-          $(this).addClass('pressed');
-        },
-        'touchend mouseup': function() {
-          $(this).removeClass('pressed');
-        }
-      });
-
-      $('.share > a, .credits > a', this.element).on({
-        'touchstart': function() {
-          var element = $(this).parent().parent();
-          element.addClass('open');
-
-          function close(e) {
-            if (!element.find(e.target).length) {
-              element.removeClass('open');
-              $('body').off('touchstart', close);
-            }
-          }
-
-          $('body').one('touchstart', close);
-        }
-      });
+    _isFixed: function() {
+      return (this.element.data('widget') === 'outline_navigation_bar_fixed' &&
+              !mobileLayout());
     }
   });
+
+  function mobileLayout() {
+    return ($('body').width() <= 900);
+  }
+
+  function hidePageContent() {
+    $('section.page').addClass('hidden_by_overlay');
+  }
+
+  function showPageContent() {
+    $('section.page').removeClass('hidden_by_overlay');
+  }
 }(jQuery));

@@ -65,7 +65,7 @@
     background-color: $outline-navigation-bar-menu-box-background-color;
 
     &:after {
-      content: '';
+      content: "";
       position: absolute;
       top: 0;
       right: -5px;
@@ -84,7 +84,9 @@
     }
   }
 
-  &:focus, &.open, &.focused {
+  &:focus,
+  &.open,
+  &.focused {
     .menu_box {
       visibility: visible;
     }
@@ -137,12 +139,31 @@
             background-position: $active-offset $outline-navigation-bar-sprite-pressed-offset + $pressed-delta;
           }
         }
-      }
-      @else {
+      } @else {
         .button {
           background-position: $offset $outline-navigation-bar-sprite-hover-offset;
         }
       }
     }
+  }
+}
+
+@mixin menu-item-shadow {
+  .button:before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    box-shadow: 0 0 20px 12px rgba(0, 0, 0, 0.4);
+    z-index: -1;
+  }
+}
+
+@mixin menu-item-shadow-off {
+  .button:before {
+    display: none;
   }
 }

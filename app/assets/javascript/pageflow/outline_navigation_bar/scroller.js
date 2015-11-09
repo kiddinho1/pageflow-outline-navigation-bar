@@ -19,6 +19,10 @@
       this.teardownResizing();
     },
 
+    on: function(event, handler) {
+      this.iscroll.on(event, handler);
+    },
+
     setupScroller: function() {
       var scrollerOptions = {
         mouseWheel: true,
