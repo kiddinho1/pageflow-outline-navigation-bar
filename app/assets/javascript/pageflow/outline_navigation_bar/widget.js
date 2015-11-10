@@ -3,8 +3,6 @@
 
   $.widget('pageflow.outlineNavigationBar', {
     _create: function() {
-      this.expandedBy = {};
-
       ///////// TERRIBLE HACK
       // Ensure all storylines inherit the parent navigation bar for highlighting when this widget is enabled.
 
@@ -18,9 +16,10 @@
 
       this.element.toggleClass('expandable', !this._isFixed());
 
+      this.expander = this._setupExpander();
       this.panels = this._setupPanels();
       this.scroller = this._setupChaptersPanel();
-      this.expandable = this._setupExpandable();
+      this.resizer = this._setupResizer();
 
       this._setupPointerDownCollapsing();
       this._setupMouseExpanding();
@@ -29,43 +28,41 @@
       this._setupButtonsPanel();
     },
 
-    expand: function(options) {
-      this.expandedBy[(options && options.by) || 'button'] = true;
+    _setupExpander: function() {
+      var widget = this;
 
-      if (!this.expanded && !this._isFixed()) {
-        this.expanded = true;
+      return new pageflow.outlineNavigationBar.Expander({
+        enabled: function() {
+          return !widget._isFixed();
+        },
 
-        this.expandable.expand();
-        this.scroller.expand();
+        expand: function(options) {
+          widget.resizer.expand();
+          widget.scroller.expand();
 
-        if (mobileLayout()) {
-          hidePageContent();
+          if (mobileLayout()) {
+            hidePageContent();
+          }
+        },
+
+        collapse: function(options) {
+          widget.panels.reset();
+          widget.resizer.collapse();
+          widget.scroller.collapse();
+
+          showPageContent();
         }
-      }
+      });
     },
 
-    collapse: function(options) {
-      delete this.expandedBy[(options && options.by) || 'button'];
-
-      if (this.expanded && _.keys(this.expandedBy).length === 0) {
-        this.expanded = false;
-
-        this.panels.reset();
-        this.expandable.collapse();
-        this.scroller.collapse();
-
-        showPageContent();
-      }
-    },
-
-    _setupExpandable: function() {
+    _setupResizer: function() {
       var element = this.element;
 
-      element.outlineNavigationBarExpandable({
+      element.outlineNavigationBarResizer({
         isFixed: this._isFixed()
       });
 
-      return this.element.outlineNavigationBarExpandable('instance');
+      return this.element.outlineNavigationBarResizer('instance');
     },
 
     _setupPanels: function() {
@@ -73,7 +70,7 @@
 
       return element
         .outlineNavigationBarPanels({
-          expandable: this,
+          expander: this.expander,
           panels: element.find('.panel'),
           toggles: element.find('.toggle'),
         })
@@ -81,30 +78,30 @@
     },
 
     _setupPointerDownCollapsing: function() {
-      var widget = this;
+      var expander = this.expander;
       var element = this.element;
 
       $('body').on(events.pointerDown, function(event) {
         if (!$(event.target).parents().filter(element).length) {
-          widget.collapse();
+          expander.collapse();
         }
       });
     },
 
     _setupMouseExpanding: function() {
-      var widget = this;
+      var expander = this.expander;
 
       if (!pageflow.browser.has('mobile platform')) {
         this.element.on({
           mouseenter: function() {
             if (!mobileLayout()) {
-              widget.expand({by: 'mouse'});
+              expander.expand({by: 'mouse'});
             }
           },
 
           mouseleave: function() {
             if (!mobileLayout()) {
-              widget.collapse({by: 'mouse'});
+              expander.collapse({by: 'mouse'});
             }
           }
         });
@@ -112,15 +109,15 @@
     },
 
     _setupFocusExpanding: function() {
-      var widget = this;
+      var expander = this.expander;
 
       this.element.find('a, *[tabindex]').on({
         focus: function() {
-          widget.expand({by: 'focus'});
+          expander.expand({by: 'focus'});
         },
 
         blur: function() {
-          widget.collapse({by: 'focus'});
+          expander.scheduleCollapse({by: 'focus'});
         }
       });
     },

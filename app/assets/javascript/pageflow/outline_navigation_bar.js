@@ -1,8 +1,9 @@
 //= require_self
 
 //= require ./outline_navigation_bar/events
+//= require ./outline_navigation_bar/expander
 //= require ./outline_navigation_bar/hide_text_button
-//= require ./outline_navigation_bar/expandable
+//= require ./outline_navigation_bar/resizer
 //= require ./outline_navigation_bar/navigator
 //= require ./outline_navigation_bar/scroller
 //= require ./outline_navigation_bar/panels

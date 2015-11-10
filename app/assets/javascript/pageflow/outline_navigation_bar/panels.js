@@ -4,7 +4,7 @@
   $.widget('pageflow.outlineNavigationBarPanels', {
     _create: function() {
       var links = this.options.toggles.find('a');
-      var expandable = this.options.expandable;
+      var expander = this.options.expander;
       var widget = this;
 
       events.onPointerDown(links, function() {
@@ -14,11 +14,11 @@
 
         if (link.data('toggle') === 'expandable') {
           if (link.hasClass('active')) {
-            expandable.collapse();
+            expander.collapse();
             collapsed = true;
           }
           else {
-            expandable.expand();
+            expander.expand();
           }
         }
         else if (link.data('toggle')) {
