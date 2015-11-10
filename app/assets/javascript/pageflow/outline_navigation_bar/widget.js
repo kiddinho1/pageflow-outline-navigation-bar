@@ -1,4 +1,6 @@
 (function($) {
+  var events = pageflow.outlineNavigationBar.events;
+
   $.widget('pageflow.outlineNavigationBar', {
     _create: function() {
       this.expandedBy = {};
@@ -16,9 +18,11 @@
 
       this.element.toggleClass('expandable', !this._isFixed());
 
+      this.panels = this._setupPanels();
       this.scroller = this._setupChaptersPanel();
       this.expandable = this._setupExpandable();
 
+      this._setupPointerDownCollapsing();
       this._setupMouseExpanding();
       this._setupFocusExpanding();
       this._setupGlobalSkipLinks();
@@ -46,6 +50,7 @@
       if (this.expanded && _.keys(this.expandedBy).length === 0) {
         this.expanded = false;
 
+        this.panels.reset();
         this.expandable.collapse();
         this.scroller.collapse();
 
@@ -60,13 +65,30 @@
         isFixed: this._isFixed()
       });
 
-      element.outlineNavigationBarPanels({
-        expandable: this,
-        panels: element.find('.panel'),
-        toggles: element.find('.toggle'),
-      });
-
       return this.element.outlineNavigationBarExpandable('instance');
+    },
+
+    _setupPanels: function() {
+      var element = this.element;
+
+      return element
+        .outlineNavigationBarPanels({
+          expandable: this,
+          panels: element.find('.panel'),
+          toggles: element.find('.toggle'),
+        })
+        .outlineNavigationBarPanels('instance');
+    },
+
+    _setupPointerDownCollapsing: function() {
+      var widget = this;
+      var element = this.element;
+
+      $('body').on(events.pointerDown, function(event) {
+        if (!$(event.target).parents().filter(element).length) {
+          widget.collapse();
+        }
+      });
     },
 
     _setupMouseExpanding: function() {

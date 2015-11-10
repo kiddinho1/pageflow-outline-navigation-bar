@@ -4,8 +4,8 @@
   $.widget('pageflow.outlineNavigationBarPanels', {
     _create: function() {
       var links = this.options.toggles.find('a');
-      var panels = this.options.panels;
       var expandable = this.options.expandable;
+      var widget = this;
 
       events.onPointerDown(links, function() {
         var link = $(this);
@@ -27,15 +27,27 @@
           }
         }
 
-        links.each(function() {
-          var link = $(this);
-          link.toggleClass('active', link.data('panel') === panelName && !collapsed);
-        });
+        widget.update(panelName, collapsed);
+      });
+    },
 
-        panels.each(function() {
-          var panel = $(this);
-          panel.toggleClass('active', panel.hasClass(panelName));
-        });
+    reset: function() {
+      var defaultLink = this.options.toggles.find('a[data-toggle="expandable"]');
+      this.update(defaultLink.data('panel'), true);
+    },
+
+    update: function(panelName, collapsed) {
+      var links = this.options.toggles.find('a');
+      var panels = this.options.panels;
+
+      links.each(function() {
+        var link = $(this);
+        link.toggleClass('active', link.data('panel') === panelName && !collapsed);
+      });
+
+      panels.each(function() {
+        var panel = $(this);
+        panel.toggleClass('active', panel.hasClass(panelName));
       });
     }
   });
