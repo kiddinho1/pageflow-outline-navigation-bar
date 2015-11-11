@@ -2,11 +2,15 @@
   opacity: 0;
   visibility: hidden;
   position: absolute;
-  top: 60px;
   right: 0;
   width: 100%;
   bottom: 0;
+  top: 5px;
   @include transition(opacity 0.2s ease, visibility 0.2s ease);
+
+  @include desktop {
+    top: 60px;
+  }
 
   &.active {
     opacity: 1;

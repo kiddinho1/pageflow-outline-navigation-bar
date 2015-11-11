@@ -1,24 +1,61 @@
 .mobile_panel {
   position: absolute;
 
+  .wrapper {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  ul {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    list-style: none;
+  }
+
+  li {
+    position: relative;
+
+    &.touched {
+      &:after {
+        background-position: -38px 0;
+      }
+
+      &:before {
+        content: " ";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background-color: #fff;
+        opacity: 0.2;
+        z-index: 1;
+        pointer-events: none;
+      }
+    }
+  }
+
   .credits {
     font-family: "sourcesanspro";
+    padding: 15px;
+    color: #fff;
 
     a {
       margin-top: 1em;
-      color: #b4c552;
+      color: $main-color;
 
       &:hover {
         color: white;
       }
     }
-  }
 
-  .heading-1 {
-    height: 40px;
-    margin: 10px;
-    font-size: 2em;
-    font-weight: bold;
-    display: none;
+    > a {
+      display: block;
+    }
   }
 }

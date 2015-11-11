@@ -1,3 +1,5 @@
+/*global IScroll*/
+
 (function($) {
   var events = pageflow.outlineNavigationBar.events;
 
@@ -26,6 +28,7 @@
       this._setupFocusExpanding();
       this._setupGlobalSkipLinks();
       this._setupButtonsPanel();
+      this._setupMobilePanels();
     },
 
     _setupExpander: function() {
@@ -82,7 +85,7 @@
       var element = this.element;
 
       $('body').on(events.pointerDown, function(event) {
-        if (!$(event.target).parents().filter(element).length) {
+        if (!$(event.target).parents().andSelf().filter(element).length) {
           expander.collapse();
         }
       });
@@ -158,6 +161,31 @@
       });
 
       return scroller;
+    },
+
+    _setupMobilePanels: function() {
+      var element = this.element;
+
+      element.find('.mobile_panel').each(function() {
+        var sharingBox = $(this).filter('.mobile_sharing');
+        var scroller = new IScroll($(this).find('.wrapper')[0], {
+          mouseWheel: true,
+          bounce: false,
+          probeType: 3
+        });
+
+        element.on(events.pointerDown, '.toggle.mobile_only a', function() {
+          scroller.refresh();
+        });
+
+        sharingBox.shareMenu({
+          scroller: scroller
+        });
+      });
+
+      $('.mobile_panel a', element).on('click touchstart', function(event) {
+        event.stopPropagation();
+      });
     },
 
     _setupGlobalSkipLinks: function() {

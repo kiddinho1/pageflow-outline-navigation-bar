@@ -1,13 +1,7 @@
 .mobile_sharing {
-  .wrapper {
-    top: 0;
-  }
-
   li {
-    width: 200px;
-    border-bottom: 1px solid #465b73;
-
     > a {
+      display: block;
       margin-left: 78px;
       color: white;
       text-decoration: none;
@@ -21,21 +15,40 @@
         position: absolute;
         width: 42px;
         height: 37px;
-        background-image: image-url('pageflow/mobile_sharing.png');
+        background-image: image-url("pageflow/mobile_sharing.png");
         background-size: 100% auto;
-        left: 30px;
+        left: 20px;
         top: 30px;
       }
 
       &.facebook:before {
         background-position: center top;
       }
+
       &.twitter:before {
         background-position: center 122px;
       }
+
       &.google:before {
         background-position: center bottom;
       }
+    }
+  }
+
+  .sub_share a {
+    color: white;
+    font-family: SourceSansPro;
+    font-size: 13px;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.3);
+    text-decoration: none;
+    width: auto;
+    display: block;
+    margin: 0 1em 1em 1em;
+    padding: 1em 0;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.6);
     }
   }
 }
