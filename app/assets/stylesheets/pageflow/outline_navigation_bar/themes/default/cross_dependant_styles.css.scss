@@ -1,4 +1,12 @@
-body .widget_outline_navigation_bar_fixed_present .navigation_mobile,
-body .widget_outline_navigation_bar_expandable_present .navigation_mobile {
-  display: none;
+.js .widget_outline_navigation_bar_fixed_present,
+.js .widget_outline_navigation_bar_expandable_present {
+  .navigation_mobile {
+    display: none;
+  }
+
+  .videoWrapper {
+    margin-right: 18px;
+    position: relative;
+    height: 100%;
+  }
 }
