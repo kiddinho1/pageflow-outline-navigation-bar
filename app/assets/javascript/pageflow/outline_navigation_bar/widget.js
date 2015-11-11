@@ -25,11 +25,16 @@
       this.resizer = this._setupResizer();
 
       this._setupPointerDownCollapsing();
+      this._setupPageChangeCollapsing();
       this._setupMouseExpanding();
       this._setupFocusExpanding();
       this._setupGlobalSkipLinks();
       this._setupButtonsPanel();
       this._setupMobilePanels();
+    },
+
+    _destroy: function() {
+      this._teardownPageChangeCollapsing();
     },
 
     _setupExpander: function() {
@@ -50,7 +55,10 @@
         },
 
         collapse: function(options) {
-          widget.panels.reset();
+          if (!widget.element.hasClass('buttons_active')) {
+            widget.panels.reset();
+          }
+
           widget.resizer.collapse();
           widget.scroller.collapse();
 
@@ -99,6 +107,18 @@
           expander.collapse();
         }
       });
+    },
+
+    _setupPageChangeCollapsing: function() {
+      var expander = this.expander;
+
+      pageflow.events.on('page:change', function() {
+        expander.collapse();
+      }, this);
+    },
+
+    _teardownPageChangeCollapsing: function() {
+      pageflow.events.off('page:change', null, this);
     },
 
     _setupMouseExpanding: function() {
