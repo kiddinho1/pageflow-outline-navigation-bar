@@ -1,8 +1,11 @@
 (function($) {
   var BAR_MIN_WIDTH = 65;
 
-  $.widget('pageflow.outlineNavigationBarResizer', {
-    _create: function() {
+  pageflow.outlineNavigationBar.Resizer = pageflow.Object.extend({
+    initialize: function(element, options) {
+      this.element = element;
+      this.options = options;
+
       this.list = this.element.find('.chapters_panel ul');
 
       this._setupWidth();

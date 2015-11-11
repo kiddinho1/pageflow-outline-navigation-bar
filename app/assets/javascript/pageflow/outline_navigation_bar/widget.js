@@ -1,7 +1,8 @@
 /*global IScroll*/
 
 (function($) {
-  var events = pageflow.outlineNavigationBar.events;
+  var o = pageflow.outlineNavigationBar;
+  var events = o.events;
 
   $.widget('pageflow.outlineNavigationBar', {
     _create: function() {
@@ -34,7 +35,7 @@
     _setupExpander: function() {
       var widget = this;
 
-      return new pageflow.outlineNavigationBar.Expander({
+      return new o.Expander({
         enabled: function() {
           return !widget._isFixed();
         },
@@ -58,16 +59,6 @@
       });
     },
 
-    _setupResizer: function() {
-      var element = this.element;
-
-      element.outlineNavigationBarResizer({
-        isFixed: this._isFixed()
-      });
-
-      return this.element.outlineNavigationBarResizer('instance');
-    },
-
     _setupPanels: function() {
       var element = this.element;
 
@@ -78,6 +69,25 @@
           toggles: element.find('.toggle'),
         })
         .outlineNavigationBarPanels('instance');
+    },
+
+    _setupChaptersPanel: function() {
+      var element = this.element;
+      var scroller = element.find('.scroller')
+        .outlineNavigationBarScroller({isFixed: this._isFixed()})
+        .outlineNavigationBarScroller('instance');
+
+      element.find('.scroller').outlineNavigationBarNavigator({
+        scroller: scroller
+      });
+
+      return scroller;
+    },
+
+    _setupResizer: function() {
+      return new o.Resizer(this.element, {
+        isFixed: this._isFixed()
+      });
     },
 
     _setupPointerDownCollapsing: function() {
@@ -148,19 +158,6 @@
         insertAfter: shareLinks.parent().last(),
         closeOnMouseLeaving: shareBox
       });
-    },
-
-    _setupChaptersPanel: function() {
-      var element = this.element;
-      var scroller = element.find('.scroller')
-        .outlineNavigationBarScroller({isFixed: this._isFixed()})
-        .outlineNavigationBarScroller('instance');
-
-      element.find('.scroller').outlineNavigationBarNavigator({
-        scroller: scroller
-      });
-
-      return scroller;
     },
 
     _setupMobilePanels: function() {
