@@ -58,11 +58,15 @@
 
   .menu_box {
     position: absolute;
-    top: 0;
     right: 70px;
     z-index: 4;
     visibility: hidden;
     background-color: $outline-navigation-bar-menu-box-background-color;
+    padding: 15px;
+
+    p {
+      color: $outline-navigation-bar-menu-box-color;
+    }
 
     &:after {
       content: "";
@@ -93,7 +97,7 @@
   }
 }
 
-@mixin menu-item-sprite($offset, $active-offset: null, $pressed-delta: 0) {
+@mixin menu-item-sprite($offset, $active-offset: null, $pressed-delta: 0, $hover-delta: 0) {
   $outline-navigation-bar-sprite-default-offset: -30px;
   $outline-navigation-bar-sprite-hover-offset: -85px;
   $outline-navigation-bar-sprite-pressed-offset: -140px;
@@ -106,13 +110,13 @@
   > a {
     @include hover {
       .button {
-        background-position: $offset $outline-navigation-bar-sprite-hover-offset;
+        background-position: $offset ($outline-navigation-bar-sprite-hover-offset + $hover-delta);
       }
     }
 
     @include pressed {
       .button {
-        background-position: $offset $outline-navigation-bar-sprite-pressed-offset + $pressed-delta;
+        background-position: $offset ($outline-navigation-bar-sprite-pressed-offset + $pressed-delta);
       }
     }
 
@@ -130,18 +134,18 @@
 
         @include hover {
           .button {
-            background-position: $active-offset $outline-navigation-bar-sprite-hover-offset;
+            background-position: $active-offset ($outline-navigation-bar-sprite-hover-offset + $hover-delta);
           }
         }
 
         @include pressed {
           .button {
-            background-position: $active-offset $outline-navigation-bar-sprite-pressed-offset + $pressed-delta;
+            background-position: $active-offset ($outline-navigation-bar-sprite-pressed-offset + $pressed-delta);
           }
         }
       } @else {
         .button {
-          background-position: $offset $outline-navigation-bar-sprite-hover-offset;
+          background-position: $offset ($outline-navigation-bar-sprite-hover-offset + $hover-delta);
         }
       }
     }

@@ -1,6 +1,6 @@
 .share_box {
-  width: 245px;
-  padding: 0 5px 10px 5px;
+  top: 0;
+  width: 210px;
 
   a {
     float: left;
@@ -8,9 +8,18 @@
     width: 70px;
   }
 
+  a.share {
+    width: 39px;
+  }
+
   p {
     font-size: 9px;
-    color: #000;
+    margin: 0;
+  }
+
+  .menu_item {
+    padding: 0 10px;
+    min-height: 0;
   }
 
   .button {

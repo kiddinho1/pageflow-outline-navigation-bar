@@ -3,10 +3,20 @@
   min-width: 230px;
   min-height: 4px;
   bottom: 0;
-  padding: 15px;
+
+  p {
+    margin: 0 0 0.5em;
+    text-align: left;
+    font-size: 1em;
+  }
 
   a.legal,
   a.copy {
     float: left;
+    margin-right: 10px;
+  }
+
+  a {
+    color: $main-color;
   }
 }

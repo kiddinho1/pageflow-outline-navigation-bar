@@ -38,18 +38,18 @@
   }
 
   .credits {
-    @include menu-item-sprite(-622px);
+    @include menu-item-sprite(-622px, $pressed-delta: -1px);
   }
 
   .share_facebook {
-    @include menu-item-sprite(-710px, $pressed-delta: 2px);
+    @include menu-item-sprite(-710px, $pressed-delta: 4px, $hover-delta: 2px);
   }
 
   .share_google {
-    @include menu-item-sprite(-847px, $pressed-delta: 2px);
+    @include menu-item-sprite(-847px, $pressed-delta: 4px, $hover-delta: 2px);
   }
 
   .share_twitter {
-    @include menu-item-sprite(-781px, $pressed-delta: 2px);
+    @include menu-item-sprite(-781px, $pressed-delta: 4px, $hover-delta: 2px);
   }
 }
