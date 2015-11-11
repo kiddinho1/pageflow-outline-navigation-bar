@@ -224,9 +224,11 @@
 
   function hidePageContent() {
     $('section.page').addClass('hidden_by_overlay');
+    $('.scroll_indicator').addClass('hidden');
   }
 
   function showPageContent() {
     $('section.page').removeClass('hidden_by_overlay');
+    $('.scroll_indicator').removeClass('hidden');
   }
 }(jQuery));
