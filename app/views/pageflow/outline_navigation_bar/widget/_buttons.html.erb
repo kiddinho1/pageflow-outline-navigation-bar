@@ -9,7 +9,7 @@
       <% end %>
     </li>
 
-    <% if entry.storylines.one? %>
+    <% if !entry.respond_to?(:storylines) || entry.storylines.one? %>
       <li class="toggle_overview menu_item">
         <a tabindex="2" class="navigation_index" title="<%= t('.display_overview') %>" data-active-title="<%= t('.hide_overview') %>">
           <span class="button"></span>

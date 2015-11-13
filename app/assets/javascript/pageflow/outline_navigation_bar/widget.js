@@ -9,11 +9,13 @@
       ///////// TERRIBLE HACK
       // Ensure all storylines inherit the parent navigation bar for highlighting when this widget is enabled.
 
-      pageflow.HighlightedPage.prototype.getNavigationBarMode = function(storylineId) {
-        if (!pageflow.entryData.getStorylineConfiguration(storylineId).main) {
-          return 'inherit_from_parent';
-        }
-      };
+      if (pageflow.entryData.getStorylineConfiguration) {
+        pageflow.HighlightedPage.prototype.getNavigationBarMode = function(storylineId) {
+          if (!pageflow.entryData.getStorylineConfiguration(storylineId).main) {
+            return 'inherit_from_parent';
+          }
+        };
+      }
 
       /////////
 

@@ -1,8 +1,13 @@
 <div class="chapters_panel panel active">
   <div class="scroller">
     <ul>
-      <%= render(partial: 'pageflow/outline_navigation_bar/widget/chapter',
-                 collection: (entry.storylines.detect { |s| s.configuration['main'] } || entry.storylines.first).chapters) %>
+      <% if entry.respond_to?(:storylines) %>
+        <%= render(partial: 'pageflow/outline_navigation_bar/widget/chapter',
+                   collection: (entry.storylines.detect { |s| s.configuration['main'] } || entry.storylines.first).chapters) %>
+      <% else %>
+        <%= render(partial: 'pageflow/outline_navigation_bar/widget/chapter',
+                   collection: entry.chapters) %>
+      <% end %>
     </ul>
   </div>
 </div>
