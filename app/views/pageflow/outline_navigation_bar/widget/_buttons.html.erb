@@ -9,14 +9,7 @@
       <% end %>
     </li>
 
-    <% if !entry.respond_to?(:storylines) || entry.storylines.one? %>
-      <li class="toggle_overview menu_item">
-        <a tabindex="2" class="navigation_index" title="<%= t('.display_overview') %>" data-active-title="<%= t('.hide_overview') %>">
-          <span class="button"></span>
-          <span class="label"><%= t('.overview') %></span>
-        </a>
-      </li>
-    <% end %>
+    <%= render('pageflow/outline_navigation_bar/widget/overview_button', overview_button: entry.overview_button) %>
 
     <li class="fullscreen menu_item">
       <a tabindex="2" title="<%= t('.enter_fullscreen') %>" data-active-title="<%= t('.leave_fullscreen') %>">
