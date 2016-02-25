@@ -185,6 +185,10 @@
     _setupMobilePanels: function() {
       var element = this.element;
 
+      element.find('.parent_page').parentPageButton({
+        visibleClass: 'is_visible'
+      });
+
       element.find('.mobile_panel').each(function() {
         var sharingBox = $(this).filter('.mobile_sharing');
         var scroller = new IScroll($(this).find('.wrapper')[0], {
