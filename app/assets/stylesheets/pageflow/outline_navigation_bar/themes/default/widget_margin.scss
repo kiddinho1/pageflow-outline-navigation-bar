@@ -1,0 +1,27 @@
+@include pageflow-widget-margin("outline_navigation_bar_fixed", "right") {
+  margin-right: 65px;
+
+  @include pageflow-progress-mobile-variant {
+    margin-right: 18px;
+  }
+}
+
+@include pageflow-widget-margin("outline_navigation_bar_fixed", "right_max") {
+  margin-right: 150px;
+
+  @include pageflow-progress-mobile-variant {
+    margin-right: 18px;
+  }
+}
+
+@include pageflow-widget-margin("outline_navigation_bar_expandable", "right") {
+  margin-right: 18px;
+}
+
+@include pageflow-widget-margin("outline_navigation_bar_expandable", "right_max") {
+  margin-right: 65px;
+
+  @include pageflow-progress-mobile-variant {
+    margin-right: 18px;
+  }
+}
