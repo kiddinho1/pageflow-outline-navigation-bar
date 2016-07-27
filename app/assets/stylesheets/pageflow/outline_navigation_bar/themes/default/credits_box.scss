@@ -1,3 +1,8 @@
+$navigation-credits-link-color: $main-color !default;
+
+/// Color of links in credits text.
+$outline-navigation-bar-credits-link-color: $navigation-credits-link-color !default;
+
 .credits_box {
   font-size: 1em;
   min-width: 230px;
@@ -17,6 +22,7 @@
   }
 
   a {
-    color: $main-color;
+    @extend %anchor;
+    color: $outline-navigation-bar-credits-link-color;
   }
 }
