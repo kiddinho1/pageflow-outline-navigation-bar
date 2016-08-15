@@ -97,61 +97,6 @@
   }
 }
 
-@mixin menu-item-sprite($offset, $active-offset: null, $pressed-delta: 0, $hover-delta: 0) {
-  $outline-navigation-bar-sprite-default-offset: -30px;
-  $outline-navigation-bar-sprite-hover-offset: -85px;
-  $outline-navigation-bar-sprite-pressed-offset: -140px;
-
-  .button {
-    background-image: image-url($outline-navigation-bar-sprite);
-    background-position: $offset $outline-navigation-bar-sprite-default-offset;
-  }
-
-  > a {
-    @include hover {
-      .button {
-        background-position: $offset ($outline-navigation-bar-sprite-hover-offset + $hover-delta);
-      }
-    }
-
-    @include pressed {
-      .button {
-        background-position: $offset ($outline-navigation-bar-sprite-pressed-offset + $pressed-delta);
-      }
-    }
-
-    &.deactivated {
-      .button {
-        background-position: $offset $outline-navigation-bar-sprite-default-offset !important;
-      }
-    }
-
-    &.active {
-      @if ($active-offset) {
-        .button {
-          background-position: $active-offset $outline-navigation-bar-sprite-default-offset;
-        }
-
-        @include hover {
-          .button {
-            background-position: $active-offset ($outline-navigation-bar-sprite-hover-offset + $hover-delta);
-          }
-        }
-
-        @include pressed {
-          .button {
-            background-position: $active-offset ($outline-navigation-bar-sprite-pressed-offset + $pressed-delta);
-          }
-        }
-      } @else {
-        .button {
-          background-position: $offset ($outline-navigation-bar-sprite-hover-offset + $hover-delta);
-        }
-      }
-    }
-  }
-}
-
 @mixin menu-item-shadow {
   .button:before {
     content: "";

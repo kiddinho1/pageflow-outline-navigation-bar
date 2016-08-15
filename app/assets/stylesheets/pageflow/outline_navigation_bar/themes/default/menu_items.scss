@@ -13,43 +13,75 @@
     max-height: 200px;
   }
 
+  .button {
+    @extend %pageflow_sprite_icon;
+  }
+
   .home {
-    @include menu-item-sprite(-155px);
+    @include pageflow-sprite-icon-home($target: ".button");
   }
 
   .top {
-    @include menu-item-sprite(-909px);
+    @include pageflow-sprite-icon-top($target: ".button");
+  }
+
+  .top .deactivated {
+    @include pageflow-sprite-icon-top("disabled", $target: ".button");
   }
 
   .toggle_overview {
-    @include menu-item-sprite(-222px);
+    @include pageflow-sprite-icon-overview($target: ".button");
+  }
+
+  .toggle_overview .deactivated {
+    @include pageflow-sprite-icon-overview("disabled", $target: ".button");
   }
 
   .fullscreen {
-    @include menu-item-sprite(-289px);
+    @include pageflow-sprite-icon-fullscreen($target: ".button");
+  }
+
+  .fullscreen .active {
+    @include pageflow-sprite-icon-fullscreen("active", $target: ".button");
   }
 
   .hide_text {
-    @include menu-item-sprite(-670px);
+    @include pageflow-sprite-icon-hide-text($target: ".button");
+  }
+
+  .hide_text .active {
+    @include pageflow-sprite-icon-hide-text("active", $target: ".button");
   }
 
   .share {
-    @include menu-item-sprite(-555px);
+    @include pageflow-sprite-icon-share($target: ".navigation_share.button");
   }
 
   .credits {
-    @include menu-item-sprite(-622px, $pressed-delta: -1px);
+    @include pageflow-sprite-icon-credits($target: ".button");
   }
 
-  .share_facebook {
-    @include menu-item-sprite(-710px, $pressed-delta: 4px, $hover-delta: 2px);
+  .share.google {
+    @include pageflow-sprite-icon-google($target: ".button");
+
+    &.active {
+      @include pageflow-sprite-icon-google("active", $target: ".button");
+    }
   }
 
-  .share_google {
-    @include menu-item-sprite(-847px, $pressed-delta: 4px, $hover-delta: 2px);
+  .share.twitter {
+    @include pageflow-sprite-icon-twitter($target: ".button");
+
+    &.active {
+      @include pageflow-sprite-icon-twitter("active", $target: ".button");
+    }
   }
 
-  .share_twitter {
-    @include menu-item-sprite(-781px, $pressed-delta: 4px, $hover-delta: 2px);
+  .share.facebook {
+    @include pageflow-sprite-icon-facebook($target: ".button");
+
+    &.active {
+      @include pageflow-sprite-icon-facebook("active", $target: ".button");
+    }
   }
 }

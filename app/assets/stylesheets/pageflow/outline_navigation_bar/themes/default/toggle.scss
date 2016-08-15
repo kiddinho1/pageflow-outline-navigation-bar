@@ -2,12 +2,26 @@
   height: 45px;
   position: absolute;
 
-  &.buttons {
-    @include menu-item-sprite(-22px, -89px);
+  &.buttons, &.share, &.credits, &.chapters {
+    .button {
+      @extend %pageflow_sprite_icon;
+    }
   }
 
   &.chapters {
-    @include menu-item-sprite(-22px);
+    @include pageflow-sprite-icon-menu($target: ".button");
+
+    .active {
+      @include pageflow-sprite-icon-menu("active", $target: ".button");
+    }
+  }
+
+  &.buttons {
+    @include pageflow-sprite-icon-menu($target: ".button");
+
+    .active {
+      @include pageflow-sprite-icon-menu("active", $target: ".button");
+    }
   }
 
   &.share,
@@ -18,13 +32,22 @@
   }
 
   &.share {
-    @include menu-item-sprite(-555px);
+    @include pageflow-sprite-icon-share($target: ".button");
     top: 80px;
+
+    .active {
+      @include pageflow-sprite-icon-share("active", $target: ".button");
+      color: active;
+    }
   }
 
   &.credits {
-    @include menu-item-sprite(-622px);
+    @include pageflow-sprite-icon-credits($target: ".button");
     bottom: 10px;
+
+    .active {
+      @include pageflow-sprite-icon-credits("active", $target: ".button");
+    }
   }
 
   &.mobile_only {

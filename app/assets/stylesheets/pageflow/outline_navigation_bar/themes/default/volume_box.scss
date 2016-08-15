@@ -8,7 +8,7 @@
     &:before,
     &:after,
     .volume-level:before {
-      background-image: image-url('pageflow/outline_navigation_bar/volume_control_sprite.png');
+      @extend %pageflow_sprite_icon;
       position: absolute;
       width: 28px;
       height: 19px;
@@ -18,14 +18,12 @@
     }
 
     &:before {
-      background-position: -34px top;
-      left: 25px;
+      @include pageflow-sprite-icon-volume-down;
       top: 80%;
     }
 
     &:after {
-      background-position: -3px top;
-      left: 25px;
+      @include pageflow-sprite-icon-volume-up;
       top: 7%;
     }
 
